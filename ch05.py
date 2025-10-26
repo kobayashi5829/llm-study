@@ -166,6 +166,7 @@ def main():
 
     model = GPTModel(GPT_CONFIG_124M)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("Device is " + device)
     model.to(device)
     optimizer = torch.optim.AdamW(
         model.parameters(),
@@ -178,6 +179,9 @@ def main():
         num_epochs=num_epochs, eval_freq=5, eval_iter=5,
         start_context="Every effort moves you", tokenizer=tokenizer
     )
+
+    epoch_tensor = torch.linspace(0, num_epochs, len(train_losses))
+    plot_losses(epoch_tensor, tokens_seen, train_losses, val_losses)
 
 if __name__ == "__main__":
     main()
